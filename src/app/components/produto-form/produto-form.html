@@ -18,41 +18,59 @@
       <p *ngIf="produtoIdNoModal">Nenhum SKU cadastrado. Clique em "Novo SKU" para adicionar.</p>
     </div>
 
-    <table mat-table [dataSource]="skus" class="w-100" *ngIf="skus.length > 0">
-      <ng-container matColumnDef="descricao">
-        <th mat-header-cell *matHeaderCellDef>Descrição</th>
-        <td mat-cell *matCellDef="let sku">{{ sku.descricao }}</td>
-      </ng-container>
+    <mat-accordion *ngIf="skus.length > 0" class="w-100">
+      <mat-expansion-panel *ngFor="let sku of skus" class="mb-2">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <span><strong>{{ sku.descricao }}</strong></span>
+              <span class="ms-3 text-muted">
+                {{ getVariationName(sku.produtoVariationId1) }}
+                <span *ngIf="sku.produtoVariationId2"> / {{ getVariationName(sku.produtoVariationId2) }}</span>
+              </span>
+              <span class="ms-3">{{ sku.precoVenda | currency:'BRL' }}</span>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
 
-      <ng-container matColumnDef="variacao1">
-        <th mat-header-cell *matHeaderCellDef>Variação 1</th>
-        <td mat-cell *matCellDef="let sku">{{ getVariationName(sku.produtoVariationId1) }}</td>
-      </ng-container>
+        <div class="sku-details p-3">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <p><strong>Descrição:</strong> {{ sku.descricao }}</p>
+              <p><strong>Variação 1:</strong> {{ getVariationName(sku.produtoVariationId1) }}</p>
+              <p *ngIf="sku.produtoVariationId2"><strong>Variação 2:</strong> {{
+                getVariationName(sku.produtoVariationId2) }}</p>
+              <p><strong>Preço de Venda:</strong> {{ sku.precoVenda | currency:'BRL' }}</p>
+            </div>
+            <div class="col-md-6">
+              <h5>Estoque</h5>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Quantidade Atual</mat-label>
+                <input matInput type="number" [ngModel]="getEstoque(sku.id)?.quantidadeAtual || 0"
+                  #estoqueInput="ngModel" min="0" (blur)="atualizarEstoque(sku.id, estoqueInput.value)"
+                  (keyup.enter)="atualizarEstoque(sku.id, estoqueInput.value)" />
+              </mat-form-field>
+              <p class="text-muted small">
+                <span *ngIf="getEstoque(sku.id)">
+                  Última atualização: {{ getEstoque(sku.id)?.atualizadoEm | date:'dd/MM/yyyy HH:mm' }}
+                </span>
+                <span *ngIf="!getEstoque(sku.id)">
+                  Estoque ainda não cadastrado. Digite uma quantidade e pressione Enter ou clique fora do campo.
+                </span>
+              </p>
+            </div>
+          </div>
 
-      <ng-container matColumnDef="variacao2">
-        <th mat-header-cell *matHeaderCellDef>Variação 2</th>
-        <td mat-cell *matCellDef="let sku">{{ getVariationName(sku.produtoVariationId2) }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="precoVenda">
-        <th mat-header-cell *matHeaderCellDef>Preço</th>
-        <td mat-cell *matCellDef="let sku">{{ sku.precoVenda | currency:'BRL' }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="acoes">
-        <th mat-header-cell *matHeaderCellDef>Ações</th>
-        <td mat-cell *matCellDef="let sku">
-          <button mat-icon-button color="primary" (click)="onEditSku(sku)" matTooltip="Editar">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="onDeleteSku(sku)" matTooltip="Excluir">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="['descricao', 'variacao1', 'variacao2', 'precoVenda', 'acoes']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['descricao', 'variacao1', 'variacao2', 'precoVenda', 'acoes'];"></tr>
-    </table>
+          <div class="d-flex justify-content-end gap-2">
+            <button mat-raised-button color="primary" (click)="onEditSku(sku)">
+              <mat-icon>edit</mat-icon> Editar SKU
+            </button>
+            <button mat-raised-button color="warn" (click)="onDeleteSku(sku)">
+              <mat-icon>delete</mat-icon> Excluir SKU
+            </button>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 </ng-template>

@@ -1,16 +1,21 @@
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { Estoque } from '../../models/estoque';
 import { Produto } from '../../models/produto';
 import { ProdutoSku } from '../../models/produto-sku';
 import { ProdutoVariation } from '../../models/produto-variation';
+import { EstoqueService } from '../../services/estoque.service';
 import { ProdutoSkuService } from '../../services/produto-sku.service';
 import { ProdutoVariationService } from '../../services/produto-variation.service';
 import { ProdutoService } from '../../services/produto.service';
@@ -24,13 +29,18 @@ import { BaseListComponent, ColumnDefinition } from '../base-list/base-list.comp
   templateUrl: './produto-form.html',
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     BaseListComponent,
     MatTableModule,
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
-    CurrencyPipe
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    CurrencyPipe,
+    DatePipe
   ],
   styleUrls: ['./produto-form.css']
 })
@@ -51,6 +61,7 @@ export class ProdutoFormComponent implements OnInit {
   // Para gerenciar SKUs no modal
   variations: ProdutoVariation[] = [];
   skus: ProdutoSku[] = [];
+  estoques: Map<number, Estoque> = new Map(); // Map<skuId, Estoque>
   produtoIdNoModal: number | null = null;
   @ViewChild('skusTemplate') skusTemplate!: TemplateRef<any>;
 
@@ -60,6 +71,7 @@ export class ProdutoFormComponent implements OnInit {
     private produtoService: ProdutoService,
     private skuService: ProdutoSkuService,
     private variationService: ProdutoVariationService,
+    private estoqueService: EstoqueService,
     private snackBar: MatSnackBar,
     private router: Router
   ) { }
@@ -236,6 +248,8 @@ export class ProdutoFormComponent implements OnInit {
       this.skuService.getAllAsArray().subscribe({
         next: (skus) => {
           this.skus = skus.filter((sku: ProdutoSku) => sku.produtoId === produtoId);
+          // Carregar estoques dos SKUs
+          this.carregarEstoquesDosSkus();
           resolve();
         },
         error: () => {
@@ -244,6 +258,81 @@ export class ProdutoFormComponent implements OnInit {
         }
       });
     });
+  }
+
+  carregarEstoquesDosSkus() {
+    this.estoqueService.getAll().subscribe({
+      next: (estoques) => {
+        this.estoques.clear();
+        estoques.forEach(estoque => {
+          this.estoques.set(estoque.produtoSkuId, estoque);
+        });
+        console.log('Estoques carregados:', Array.from(this.estoques.entries()));
+      },
+      error: (error) => {
+        console.error('Erro ao carregar estoques:', error);
+      }
+    });
+  }
+
+  getEstoque(skuId: number): Estoque | null {
+    return this.estoques.get(skuId) || null;
+  }
+
+  atualizarEstoque(skuId: number, quantidadeAtual: any) {
+    // Converter para número e validar
+    const quantidade = quantidadeAtual === '' || quantidadeAtual === null || quantidadeAtual === undefined
+      ? 0
+      : Number(quantidadeAtual);
+
+    if (isNaN(quantidade)) {
+      this.snackBar.open('Quantidade inválida', 'Fechar', { duration: 3000 });
+      return;
+    }
+
+    // Garantir que é um número positivo
+    const quantidadeFinal = Math.max(0, Math.floor(quantidade));
+
+    const estoque = this.estoques.get(skuId);
+    console.log('Atualizando estoque:', {
+      skuId,
+      quantidadeOriginal: quantidadeAtual,
+      quantidadeFinal,
+      estoqueExiste: !!estoque,
+      estoqueAtual: estoque
+    });
+
+    if (estoque && estoque.produtoSkuId === skuId) {
+      // Atualizar estoque existente
+      this.estoqueService.update(skuId, quantidadeFinal).subscribe({
+        next: () => {
+          console.log('Estoque atualizado com sucesso');
+          // Atualizar o estoque local com a nova quantidade
+          estoque.quantidadeAtual = quantidadeFinal;
+          estoque.atualizadoEm = new Date().toISOString();
+          this.estoques.set(skuId, estoque);
+          this.snackBar.open('Estoque atualizado com sucesso!', 'Fechar', { duration: 3000 });
+        },
+        error: (error) => {
+          console.error('Erro ao atualizar estoque:', error);
+          this.snackBar.open('Erro ao atualizar estoque', 'Fechar', { duration: 3000 });
+        }
+      });
+    } else {
+      // Criar novo estoque
+      console.log('Criando novo estoque para SKU:', skuId, 'com quantidade:', quantidadeFinal);
+      this.estoqueService.create({ produtoSkuId: skuId, quantidadeAtual: quantidadeFinal }).subscribe({
+        next: (novoEstoque) => {
+          console.log('Estoque criado com sucesso:', novoEstoque);
+          this.estoques.set(skuId, novoEstoque);
+          this.snackBar.open('Estoque criado com sucesso!', 'Fechar', { duration: 3000 });
+        },
+        error: (error) => {
+          console.error('Erro ao criar estoque:', error);
+          this.snackBar.open('Erro ao criar estoque', 'Fechar', { duration: 3000 });
+        }
+      });
+    }
   }
 
   getSkuFields(): FormField[] {
