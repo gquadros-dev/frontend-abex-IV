@@ -1,0 +1,8 @@
+.tab-content {
+    padding: 1rem 0;
+    min-height: 200px;
+}
+
+.mat-mdc-form-field {
+    padding-top: 0.25rem;
+}

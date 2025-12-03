@@ -1,0 +1,4 @@
+<app-base-list [title]="'Variações de Produto'" [searchPlaceholder]="'Buscar variação'"
+    [emptyMessage]="'Nenhuma variação encontrada.'" [columns]="columns" [data]="variations" [isLoading]="isLoading"
+    (onNew)="openDialog()" (onEdit)="editarVariation($event)" (onDelete)="deletarVariation($event)">
+</app-base-list>

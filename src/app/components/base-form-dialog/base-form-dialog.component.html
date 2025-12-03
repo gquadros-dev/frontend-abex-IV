@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+    <ng-container *ngIf="customTemplate; else defaultTemplate">
+        <ng-container *ngTemplateOutlet="customTemplate; context: { $implicit: data }"></ng-container>
+    </ng-container>
+    <ng-template #defaultTemplate>
+        <ng-container *ngFor="let field of fields">
+            <mat-form-field appearance="outline" class="w-100 mb-3">
+                <mat-label>{{ field.label }}</mat-label>
+                <textarea *ngIf="field.type === 'textarea'" matInput [ngModel]="getFieldValue(field.key)"
+                    (ngModelChange)="setFieldValue(field.key, $event)" [required]="field.required === true"
+                    [rows]="field.rows || 3" [placeholder]="field.placeholder || ''">
+        </textarea>
+                <mat-select *ngIf="field.type === 'select'" [ngModel]="getFieldValue(field.key)"
+                    (ngModelChange)="setFieldValue(field.key, $event)" [required]="field.required === true">
+                    <mat-option [value]="null">Selecione...</mat-option>
+                    <mat-option *ngFor="let option of field.options" [value]="option.value">{{ option.label
+                        }}</mat-option>
+                </mat-select>
+                <input *ngIf="field.type !== 'textarea' && field.type !== 'select'" matInput
+                    [type]="field.type || 'text'" [ngModel]="getFieldValue(field.key)"
+                    (ngModelChange)="setFieldValue(field.key, $event)" [required]="field.required === true"
+                    [min]="field.min" [max]="field.max" [step]="field.step" [placeholder]="field.placeholder || ''">
+            </mat-form-field>
+        </ng-container>
+    </ng-template>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="cancelar()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="salvar()" [disabled]="!isFormValid()">
+        Salvar
+    </button>
+</mat-dialog-actions>

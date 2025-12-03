@@ -1,0 +1,79 @@
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+/* alterando tema do Angular Material
+:root {
+  --app-primary-color: #d32f2f;
+  --app-secondary-color: #ff4081;
+  --app-bg-card: #fff0f0;
+  --app-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* principais classes
+ Botões
+
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-icon-button {
+  font-family: var(--app-font-family);
+  color: var(--app-primary-color);
+}
+
+/* Card
+.mat-mdc-card {
+  background-color: var(--app-bg-card);
+  font-family: var(--app-font-family);
+  border-radius: 8px;
+}
+
+/* Toolbar
+.mat-mdc-toolbar {
+  background-color: var(--app-primary-color);
+  font-family: var(--app-font-family);
+  color: white;
+}
+
+Form fields */
+.mat-mdc-form-field,
+.mat-mdc-input-element {
+  /*font-family: var(--app-font-family);
+  color: var(--app-primary-color);*/
+  padding-top:0.25rem;
+}
+
+/* Checkbox
+.mat-mdc-checkbox {
+  font-family: var(--app-font-family);
+}
+
+/* Radio
+.mat-mdc-radio-button {
+  font-family: var(--app-font-family);
+}
+
+/* Select
+.mat-mdc-select {
+  font-family: var(--app-font-family);
+}
+
+/* Snackbar
+.mat-mdc-snack-bar-container {
+  font-family: var(--app-font-family);
+  background-color: var(--app-secondary-color);
+  color: white;
+}
+
+
+.mat-mdc-button {
+  font-family: 'Roboto', sans-serif;
+  color: #d32f2f;
+}
+
+.mat-mdc-card {
+  background-color: #ffe6e6;
+}
+*/

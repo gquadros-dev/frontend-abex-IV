@@ -1,0 +1,8 @@
+@for (produto of produtos; track produto.id) {
+<div class="produto-card">
+  <h3>{{ produto.nome }}</h3>
+  <p>{{ produto.descricao }}</p>
+  <strong>{{ produto.precoVenda | currency:'BRL' }}</strong>
+  <p><small>Fornecedor ID: {{ produto.fornecedorId }}</small></p>
+</div>
+}

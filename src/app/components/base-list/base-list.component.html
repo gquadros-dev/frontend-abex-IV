@@ -1,0 +1,90 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <button mat-stroked-button matTooltip="Voltar" color="primary" (click)="handleBack()">Voltar</button>
+        <h3>{{ title }}</h3>
+        <button mat-flat-button matTooltip="Adicionar" color="accent" (click)="handleNew()">Novo</button>
+    </div>
+
+    <!-- Campo de busca -->
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>{{ searchPlaceholder }}</mat-label>
+        <input matInput (keyup)="aplicarFiltro($event)" [placeholder]="searchPlaceholder">
+        <button mat-icon-button matSuffix matTooltip="Buscar">
+            <mat-icon>search</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <!-- Barra de carregamento -->
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+    <div class="table-container">
+        <!-- Tabela -->
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-2 w-100">
+
+            <!-- Mensagem de nenhum registro encontrado -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                    {{ emptyMessage }}
+                </td>
+            </tr>
+
+            <!-- Colunas dinâmicas -->
+            <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
+                <th mat-header-cell *matHeaderCellDef
+                    [mat-sort-header]="column.sortable && enableSort ? column.key : ''">
+                    {{ column.label }}
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="customCellTemplate; else defaultCell">
+                        <ng-container
+                            *ngTemplateOutlet="customCellTemplate; context: { $implicit: element, column: column }"></ng-container>
+                    </ng-container>
+                    <ng-template #defaultCell>
+                        <ng-container *ngIf="column.pipe === 'currency'">
+                            {{ getCellValue(element, column) | currency: (column.pipeArgs || 'BRL') }}
+                        </ng-container>
+                        <ng-container *ngIf="column.pipe === 'date'">
+                            {{ getCellValue(element, column) | date: (column.pipeArgs || 'dd/MM/yyyy') }}
+                        </ng-container>
+                        <ng-container *ngIf="!column.pipe">
+                            {{ getCellValue(element, column) }}
+                        </ng-container>
+                    </ng-template>
+                </td>
+            </ng-container>
+
+            <!-- Coluna de ações -->
+            <ng-container matColumnDef="acoes" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef>Ações</th>
+                <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="customActionsTemplate; else defaultActions">
+                        <ng-container
+                            *ngTemplateOutlet="customActionsTemplate; context: { $implicit: element }"></ng-container>
+                    </ng-container>
+                    <ng-template #defaultActions>
+                        <div class="btns_acoes">
+                            <button mat-icon-button matTooltip="Editar" color="primary" (click)="handleEdit(element)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button matTooltip="Deletar" color="warn" (click)="handleDelete(element)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </ng-template>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <!-- Paginação -->
+        <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
+        </mat-paginator>
+    </div>
+
+    <!-- Botão de exportar (opcional) -->
+    <button *ngIf="showExportButton" mat-stroked-button color="primary" (click)="handleExport()">
+        Exportar CSV
+    </button>
+</div>

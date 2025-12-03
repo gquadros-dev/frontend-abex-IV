@@ -1,0 +1,5 @@
+<app-base-list [title]="'Fornecedores'" [searchPlaceholder]="'Buscar fornecedor'"
+  [emptyMessage]="'Nenhum fornecedor encontrado.'" [columns]="columns" [data]="fornecedores" [isLoading]="isLoading"
+  [showExportButton]="true" (onNew)="openDialog()" (onEdit)="editarFornecedor($event)"
+  (onDelete)="deletarFornecedor($event)" (onExport)="exportarCSV()">
+</app-base-list>

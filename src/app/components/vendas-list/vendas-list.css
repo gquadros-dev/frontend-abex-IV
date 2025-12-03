@@ -1,0 +1,16 @@
+.container {
+  max-width: 900px;  
+  margin: 2rem auto; 
+  padding: 1rem;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}

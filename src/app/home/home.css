@@ -1,0 +1,74 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f4f7f6; /* Um cinza bem claro para o fundo */
+  color: #333; /* Cor de texto principal (cinza escuro) */
+  margin: 0;
+  padding: 20px;
+}
+
+/* Container principal para centralizar o conteúdo */
+.container {
+  max-width: 800px;
+  margin: 40px auto; /* Centraliza o container na página */
+  padding: 20px;
+}
+
+/* Estilo dos títulos */
+h1 {
+  color: #2c3e50;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 40px;
+}
+
+/* Estilo de "card" para agrupar seções */
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  margin-top: 0;
+  color: #3498db; /* Um azul para os títulos das seções */
+}
+
+/* Estilo para a navegação dos links de cadastro */
+.admin-links {
+  display: flex;
+  gap: 15px; /* Espaçamento entre os links */
+  flex-wrap: wrap; /* Permite que os links quebrem a linha em telas menores */
+}
+
+.admin-links a, .catalog-link {
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #3498db; /* Cor de fundo azul */
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Animação suave */
+}
+
+/* Efeito de hover para os links */
+.admin-links a:hover, .catalog-link:hover {
+  background-color: #2980b9; /* Um azul mais escuro ao passar o mouse */
+  transform: translateY(-2px); /* Efeito de "levantar" o botão */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Estilo específico para o link do catálogo para dar mais destaque */
+.catalog-link {
+    display: inline-block; /* Necessário para aplicar padding corretamente */
+    background-color: #2ecc71; /* Um verde para chamar a atenção */
+}
+
+.catalog-link:hover {
+    background-color: #27ae60; /* Verde mais escuro */
+}

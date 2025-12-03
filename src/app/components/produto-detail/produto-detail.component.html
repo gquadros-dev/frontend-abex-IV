@@ -1,0 +1,41 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <button mat-stroked-button color="primary" (click)="voltar()">Voltar</button>
+        <h3>{{ produto?.nome || 'Produto' }}</h3>
+        <div></div>
+    </div>
+
+    <mat-tab-group>
+        <!-- Tab: Dados do Produto -->
+        <mat-tab label="Dados do Produto">
+            <div class="tab-content p-4">
+                <div *ngIf="isLoading">Carregando...</div>
+                <div *ngIf="!isLoading && produto">
+                    <div class="info-row">
+                        <strong>Nome:</strong> {{ produto.nome }}
+                    </div>
+                    <div class="info-row">
+                        <strong>Descrição:</strong> {{ produto.descricao }}
+                    </div>
+                    <div class="info-row">
+                        <strong>Preço de Venda:</strong> {{ produto.precoVenda | currency:'BRL' }}
+                    </div>
+                    <div class="info-row">
+                        <strong>Fornecedor ID:</strong> {{ produto.fornecedorId }}
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+
+        <!-- Tab: SKUs -->
+        <mat-tab label="SKUs">
+            <div class="tab-content">
+                <app-base-list [title]="'SKUs do Produto'" [searchPlaceholder]="'Buscar SKU'"
+                    [emptyMessage]="'Nenhum SKU encontrado.'" [columns]="skuColumns" [data]="skus"
+                    [isLoading]="isLoadingSkus" [showExportButton]="false" (onNew)="onNewSku()"
+                    (onEdit)="onEditSku($event)" (onDelete)="onDeleteSku($event)">
+                </app-base-list>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

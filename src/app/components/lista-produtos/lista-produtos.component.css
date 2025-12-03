@@ -1,0 +1,28 @@
+.produto-card {
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin: 12px;
+  border-radius: 8px;
+  max-width: 300px;
+}
+
+.tags {
+  margin-top: 10px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 2px;
+  font-size: 12px;
+  border-radius: 4px;
+  background-color: #eee;
+}
+
+.tag.genero {
+  background-color: #cde;
+}
+
+.tag.tamanho {
+  background-color: #eec;
+}

@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>{{ data.id ? 'Editar Fornecedor' : 'Novo Fornecedor' }}</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label>Nome</mat-label>
+    <input matInput [(ngModel)]="data.nome" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label>CNPJ/CPF</mat-label>
+    <input matInput [(ngModel)]="data.cnpjCpf" required placeholder="00.000.000/0000-00" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" [(ngModel)]="data.email" required placeholder="exemplo@email.com" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label>Telefone</mat-label>
+    <input matInput [(ngModel)]="data.telefone" required placeholder="(00) 00000-0000" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label>Endereço</mat-label>
+    <textarea matInput [(ngModel)]="data.endereco" required rows="2" placeholder="Rua, número - Cidade/UF"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="salvar()"
+    [disabled]="!data.nome || !data.cnpjCpf || !data.email || !data.telefone || !data.endereco">Salvar</button>
+</mat-dialog-actions>
