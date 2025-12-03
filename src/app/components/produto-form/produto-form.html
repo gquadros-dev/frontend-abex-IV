@@ -8,7 +8,7 @@
   <div class="skus-tab-content">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h4>SKUs do Produto</h4>
-      <button mat-raised-button color="primary" (click)="onNewSku()" [disabled]="!produtoIdNoModal">
+      <button mat-raised-button class="btn-new-sku" (click)="onNewSku()" [disabled]="!produtoIdNoModal">
         <mat-icon>add</mat-icon> Novo SKU
       </button>
     </div>
@@ -62,10 +62,10 @@
           </div>
 
           <div class="d-flex justify-content-end gap-2">
-            <button mat-raised-button color="primary" (click)="onEditSku(sku)">
+            <button mat-raised-button class="btn-edit-sku" (click)="onEditSku(sku)">
               <mat-icon>edit</mat-icon> Editar SKU
             </button>
-            <button mat-raised-button color="warn" (click)="onDeleteSku(sku)">
+            <button mat-raised-button class="btn-delete-sku" (click)="onDeleteSku(sku)">
               <mat-icon>delete</mat-icon> Excluir SKU
             </button>
           </div>

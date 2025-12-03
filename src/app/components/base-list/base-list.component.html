@@ -1,8 +1,8 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <button mat-stroked-button matTooltip="Voltar" color="primary" (click)="handleBack()">Voltar</button>
+        <button mat-stroked-button matTooltip="Voltar" class="btn-back" (click)="handleBack()">Voltar</button>
         <h3>{{ title }}</h3>
-        <button mat-flat-button matTooltip="Adicionar" color="accent" (click)="handleNew()">Novo</button>
+        <button mat-flat-button matTooltip="Adicionar" class="btn-new" (click)="handleNew()">Novo</button>
     </div>
 
     <!-- Campo de busca -->
@@ -63,10 +63,11 @@
                     </ng-container>
                     <ng-template #defaultActions>
                         <div class="btns_acoes">
-                            <button mat-icon-button matTooltip="Editar" color="primary" (click)="handleEdit(element)">
+                            <button mat-icon-button matTooltip="Editar" class="btn-edit" (click)="handleEdit(element)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button matTooltip="Deletar" color="warn" (click)="handleDelete(element)">
+                            <button mat-icon-button matTooltip="Deletar" class="btn-delete"
+                                (click)="handleDelete(element)">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </div>
@@ -84,7 +85,7 @@
     </div>
 
     <!-- Botão de exportar (opcional) -->
-    <button *ngIf="showExportButton" mat-stroked-button color="primary" (click)="handleExport()">
+    <button *ngIf="showExportButton" mat-stroked-button class="btn-export" (click)="handleExport()">
         Exportar CSV
     </button>
 </div>

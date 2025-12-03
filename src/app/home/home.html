@@ -1,18 +1,56 @@
-<div class="container">
-  <h1>SiteBrechó</h1>
-  <p class="subtitle">Bem vindo ao default_tenant</p>
-
-  <div class="card">
-    <h2>Cadastros</h2>
-    <nav class="admin-links">
-      <a routerLink="../fornecedores">Fornecedores</a>
-      <a routerLink="../produtos">Produtos</a>
-      <a routerLink="../variacoes">Variações</a>
-      <a routerLink="../vendas">Vendas</a>
-    </nav>
+<div class="dashboard-container">
+  <div class="welcome-section">
+    <h1 class="welcome-title">Bem-vindo ao SiteBrechó!</h1>
+    <p class="welcome-subtitle">Gerencie seu brechó de forma simples e eficiente</p>
   </div>
 
-  <div class="card">
-    <h2><a class="catalog-link" routerLink="../lista-produtos">Acessar Catálogo 🛍️</a></h2>
+  <div class="cards-grid">
+    <mat-card class="dashboard-card" routerLink="../produtos">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>inventory_2</mat-icon>
+          Produtos
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Gerencie seu catálogo de produtos, SKUs e estoques</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="dashboard-card" routerLink="../fornecedores">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>local_shipping</mat-icon>
+          Fornecedores
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Cadastre e gerencie seus fornecedores</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="dashboard-card" routerLink="../variacoes">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>category</mat-icon>
+          Variações
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Configure cores, tamanhos e outras variações</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="dashboard-card" routerLink="../vendas">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>point_of_sale</mat-icon>
+          Vendas
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Visualize e gerencie suas vendas</p>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

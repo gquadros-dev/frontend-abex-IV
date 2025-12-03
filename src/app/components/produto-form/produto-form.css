@@ -1,0 +1,32 @@
+/* Paleta de cores customizada */
+.btn-new-sku {
+    background-color: #FF4F40 !important;
+    color: white !important;
+}
+
+.btn-new-sku:hover:not(:disabled) {
+    background-color: #e6392f !important;
+}
+
+.btn-new-sku:disabled {
+    background-color: #bdbdbd !important;
+    color: white !important;
+}
+
+.btn-edit-sku {
+    background-color: #424242 !important;
+    color: white !important;
+}
+
+.btn-edit-sku:hover {
+    background-color: #616161 !important;
+}
+
+.btn-delete-sku {
+    background-color: #FF4F40 !important;
+    color: white !important;
+}
+
+.btn-delete-sku:hover {
+    background-color: #e6392f !important;
+}

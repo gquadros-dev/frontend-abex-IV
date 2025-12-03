@@ -1,7 +1,14 @@
-export interface Venda {
-  id: number;
-  produtoId: number;
-  fornecedorId: number;
+export interface VendaItem {
+  id?: number;
+  produtoSkuId: number;
   quantidade: number;
-  data: string;
+  precoUnitario?: number;
+}
+
+export interface Venda {
+  id?: number;
+  dataVenda?: string;
+  nomeCliente: string;
+  valorTotal?: number;
+  itens: VendaItem[];
 }

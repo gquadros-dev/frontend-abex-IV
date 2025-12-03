@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>Selecionar Item da Venda</h2>
+
+<mat-dialog-content>
+    <div class="selecionar-item-content">
+        <mat-accordion class="w-100">
+            <mat-expansion-panel *ngFor="let produto of produtos" class="mb-2">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <span><strong>{{ produto.nome }}</strong></span>
+                            <span class="ms-3 text-muted">{{ produto.descricao }}</span>
+                        </div>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="skus-list p-3">
+                    <div *ngIf="getSkusPorProduto(produto.id).length === 0" class="empty-message">
+                        <p>Nenhum SKU disponível para este produto.</p>
+                    </div>
+
+                    <div *ngFor="let sku of getSkusPorProduto(produto.id)" class="sku-item mb-2">
+                        <div class="d-flex justify-content-between align-items-center p-2 sku-card"
+                            [class.selected]="skuSelecionado === sku.id" (click)="selecionarSku(sku.id!)">
+                            <div class="sku-info">
+                                <div class="sku-descricao"><strong>{{ sku.descricao || 'Sem descrição' }}</strong></div>
+                                <div class="sku-preco">{{ sku.precoVenda | currency:'BRL' }}</div>
+                            </div>
+                            <mat-icon *ngIf="skuSelecionado === sku.id" color="primary">check_circle</mat-icon>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <div *ngIf="produtos.length === 0" class="empty-message">
+            <p>Nenhum produto disponível.</p>
+        </div>
+    </div>
+
+    <div *ngIf="skuSelecionado" class="quantidade-section mt-3">
+        <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Quantidade</mat-label>
+            <input matInput type="number" [(ngModel)]="quantidade" min="1" required>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+    <button mat-raised-button class="btn-add" (click)="adicionar()" [disabled]="!skuSelecionado || quantidade <= 0">
+        <mat-icon>add</mat-icon>
+        Adicionar
+    </button>
+</mat-dialog-actions>

@@ -35,8 +35,8 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-button (click)="cancelar()">Cancelar</button>
-    <button mat-raised-button color="primary" (click)="salvar()" [disabled]="!isFormValid()">
+    <button mat-button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+    <button mat-raised-button class="btn-save" (click)="salvar()" [disabled]="!isFormValid()">
         Salvar
     </button>
 </mat-dialog-actions>

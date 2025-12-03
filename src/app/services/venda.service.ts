@@ -1,29 +1,45 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../components/environment';
 import { Venda } from '../models/venda';
-import { environment } from '../components/environment'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class VendaService {
-  //private apiUrl = 'http://sitebecho/api/vendas';
-  
-  private apiUrl = `${environment.apiUrl}/vendas`;
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl}/api/Venda`;
+
+  constructor(private http: HttpClient) { }
 
   getAll(): Observable<Venda[]> {
     return this.http.get<Venda[]>(this.apiUrl);
   }
 
-  create(venda: Venda): Observable<Venda> {
-    return this.http.post<Venda>(this.apiUrl, venda);
+  getById(id: number): Observable<Venda> {
+    return this.http.get<Venda>(`${this.apiUrl}/${id}`);
   }
 
+  create(venda: Omit<Venda, 'id' | 'dataVenda' | 'valorTotal'>): Observable<Venda> {
+    const body = {
+      nomeCliente: venda.nomeCliente,
+      itens: venda.itens.map(item => ({
+        produtoSkuId: item.produtoSkuId,
+        quantidade: item.quantidade
+      }))
+    };
+    return this.http.post<Venda>(this.apiUrl, body);
+  }
 
-  update(venda: Venda): Observable<Venda> {
-    return this.http.put<Venda>(`${this.apiUrl}/${venda.id}`, venda);
+  update(id: number, venda: Omit<Venda, 'id' | 'dataVenda' | 'valorTotal'>): Observable<Venda> {
+    const body = {
+      nomeCliente: venda.nomeCliente,
+      itens: venda.itens.map(item => ({
+        produtoSkuId: item.produtoSkuId,
+        quantidade: item.quantidade
+      }))
+    };
+    return this.http.put<Venda>(`${this.apiUrl}/${id}`, body);
   }
 
   delete(id: number): Observable<void> {

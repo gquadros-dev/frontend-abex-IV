@@ -1,0 +1,118 @@
+.sidenav-container {
+  height: 100vh;
+  position: relative;
+}
+
+.hover-trigger {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 100vh;
+  z-index: 1002;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.sidenav {
+  width: 280px;
+  background: #fff;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, width 0.3s ease;
+  z-index: 1001;
+}
+
+.sidenav-header {
+  padding: 24px 16px;
+  background: #FF4F40;
+  color: white;
+  text-align: center;
+}
+
+.logo {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.tenant-name {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+  text-transform: capitalize;
+}
+
+mat-nav-list {
+  padding-top: 8px;
+}
+
+mat-nav-list a {
+  margin: 4px 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+mat-nav-list a:hover {
+  background-color: #f5f5f5;
+}
+
+mat-nav-list a.active {
+  background: #FF4F40;
+  color: white;
+}
+
+mat-nav-list a.active mat-icon {
+  color: white;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #424242 !important;
+  color: white;
+}
+
+.menu-button {
+  margin-right: 16px;
+}
+
+.toolbar-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+}
+
+.btn-signin,
+.btn-logout {
+  background-color: #616161 !important;
+  color: white !important;
+}
+
+.btn-signin:hover,
+.btn-logout:hover {
+  background-color: #757575 !important;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.main-content {
+  padding: 24px;
+  min-height: calc(100vh - 64px);
+  background-color: #f5f5f5;
+}
+
+@media (max-width: 960px) {
+  .sidenav {
+    width: 260px;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+}

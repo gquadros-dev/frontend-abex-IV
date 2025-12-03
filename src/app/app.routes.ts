@@ -10,11 +10,16 @@ import { TenantLayout } from './tenant-layout/tenant-layout';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'default_tenant',
+    pathMatch: 'full'
+  },
+  {
     path: ':tenantId',
     component: TenantLayout,
     children: [
+      { path: '', component: ListaProdutosComponent }, // Catálogo como rota padrão do tenant
       { path: 'home', component: Home },
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'lista-produtos', component: ListaProdutosComponent },
       { path: 'fornecedores', component: FornecedoresComponent },
       { path: 'produtos', component: ProdutoFormComponent },
@@ -25,6 +30,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'default_tenant/home'
+    redirectTo: 'default_tenant'
   }
 ];
